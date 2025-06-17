@@ -65,7 +65,11 @@ def test_history_tracking():
     assert last.a == 4
     assert last.b == 1
     assert last.subtract() == 3
-
+def test_generated_cases(generated_test_case):
+    '''Test calculator operations using dynamically generated Faker data'''
+    a, b, operation, expected = generated_test_case
+    result = getattr(Calculator, operation)(a, b)
+    
 fake = Faker()
 
 def test_fake_addition():
@@ -98,4 +102,5 @@ def test_fake_division():
     b = fake.random_int(min=1, max=10)  # Avoid divide-by-zero
     expected = a / b
     result = Calculator.divide(a, b)
+
     assert result == expected
