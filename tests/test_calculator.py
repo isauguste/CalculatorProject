@@ -2,6 +2,7 @@
 
 import pytest
 from calculator import Calculator, Calculations
+from faker import Faker
 
 @pytest.fixture(autouse=True)
 def clear_history_before_test():
@@ -43,6 +44,7 @@ def test_multiplication(num1, num2, expected):
     (9, 3, 3),
     (-8, 2, -4)
 ])
+
 def test_division(num1, num2, expected):
     '''Test division with multiple inputs'''
     assert Calculator.divide(num1, num2) == expected
@@ -63,9 +65,42 @@ def test_history_tracking():
     assert last.a == 4
     assert last.b == 1
     assert last.subtract() == 3
-
 def test_generated_cases(generated_test_case):
     '''Test calculator operations using dynamically generated Faker data'''
     a, b, operation, expected = generated_test_case
     result = getattr(Calculator, operation)(a, b)
+    
+fake = Faker()
+
+def test_fake_addition():
+    '''Test Calculator.add using random fake data'''
+    a = fake.random_int(min=1, max=100)
+    b = fake.random_int(min=1, max=100)
+    expected = a + b
+    result = Calculator.add(a, b)
+    assert result == expected
+
+def test_fake_subtraction():
+    '''Test Calculator.subtract using random fake data'''
+    a = fake.random_int(min=50, max=100)
+    b = fake.random_int(min=1, max=49)
+    expected = a - b
+    result = Calculator.subtract(a, b)
+    assert result == expected
+
+def test_fake_multiplication():
+    '''Test Calculator.multiply using random fake data'''
+    a = fake.random_int(min=1, max=20)
+    b = fake.random_int(min=1, max=10)
+    expected = a * b
+    result = Calculator.multiply(a, b)
+    assert result == expected
+
+def test_fake_division():
+    '''Test Calculator.divide using random fake data (avoid zero)'''
+    a = fake.random_int(min=10, max=100)
+    b = fake.random_int(min=1, max=10)  # Avoid divide-by-zero
+    expected = a / b
+    result = Calculator.divide(a, b)
+
     assert result == expected
