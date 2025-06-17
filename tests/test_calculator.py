@@ -63,3 +63,9 @@ def test_history_tracking():
     assert last.a == 4
     assert last.b == 1
     assert last.subtract() == 3
+
+def test_generated_cases(generated_test_case):
+    '''Test calculator operations using dynamically generated Faker data'''
+    num1, num2, operation, expected = generated_test_case
+    result = getattr(Calculator, operation)(num1, num2)
+    assert result == expected
