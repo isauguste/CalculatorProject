@@ -66,6 +66,6 @@ def test_history_tracking():
 
 def test_generated_cases(generated_test_case):
     '''Test calculator operations using dynamically generated Faker data'''
-    num1, num2, operation, expected = generated_test_case
-    result = getattr(Calculator, operation)(num1, num2)
+    a, b, operation, expected = generated_test_case
+    result = getattr(Calculator, operation)(a, b)
     assert result == expected
